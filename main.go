@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -12,11 +13,14 @@ import (
 	"time"
 )
 
+var ip = flag.String("ip", "50341", "Ip for route")
+
 func main() {
+	flag.Parse()
 	http.HandleFunc("/api/acceptFile", handleAcceptFile)
 	http.HandleFunc("/", handleIndex)
 
-	err := http.ListenAndServe(":8083", nil)
+	err := http.ListenAndServe(":"+*ip, nil)
 	if err != nil {
 		panic(err)
 	}

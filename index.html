@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="button" onclick="sendRequest()" value="Send message">
+<input type="file" id="input-photo" multiple="multiple">
+<script>
+    let formData = new FormData();
+
+    for(let i = 0; i < document.getElementById("input-photo").files.length; i++) {
+        formData.append(document.getElementById("input-photo").files[i].name,
+            document.getElementById("input-photo").files[i]);
+    }
+
+    formData.append("data", JSON.stringify({value1: "value2"}));
+
+    function sendRequest() {
+        fetch("http://10.0.0.17:8083/api/acceptFile", {
+            method: "POST", body: formData
+        }).then(function(response){
+            console.log(response);
+        });
+    }
+</script>
+</body>
+</html>

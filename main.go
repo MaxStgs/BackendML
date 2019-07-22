@@ -61,7 +61,7 @@ func handleAcceptFile(w http.ResponseWriter, r *http.Request) {
 	result, err := isFolderExists(remoteName)
 	err = os.Chdir("data/")
 	if err != nil {
-		fmt.Printf("Error: %v\n", err)
+		fmt.Printf("Error: %v, folder 'data' was not found, continue...\n", err)
 	}
 	// Is new user?
 	if !result {

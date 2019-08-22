@@ -4,22 +4,40 @@
     <meta charset="UTF-8">
     <title>UserPage</title>
     <style>
-        #list > div > img {
+        #list > tr > td > img {
             width: 400px;
             height: 200px;
         }
 
+        #list > tr > td:nth-child(2n) {
+            width: 200px;
+            text-align: center;
+        }
+
+        #list > tr > td:nth-child(3) {
+            width: 400px;
+            text-align: center;
+        }
+
         #list > div {
             display: block;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .fail {
+            color: red;
         }
     </style>
 </head>
 <body>
 <input type="button" onclick="sendRequest()" value="Send message">
 <input type="file" id="input-photo" multiple="multiple">
-<div id="list">
-
-</div>
+<div>Результат: <span id="spanPercent"></span>% при <span id="successCount"></span>/<span id="fullCount"></span> пройденных</div>
+<table id="list" border="1">
+</table>
 <script>
     let formData = new FormData();
 
@@ -46,26 +64,85 @@
     };
 
     function Redraw(data) {
-        document.getElementById("list").innerHTML = '';
+        let successCount = 0;
+        document.getElementById("list").innerHTML = "<tr>\n" +
+            "        <th>Фото</th>\n" +
+            "        <th>Результат</th>\n" +
+            "        <th>Название файла</th>\n" +
+            "        <th>Проверка</th>\n" +
+            "    </tr>";
         for(let i = 0; i < document.getElementById("input-photo").files.length; i++) {
             let input = document.getElementById("input-photo");
             if (input.files && input.files[i]) {
                 let reader = new FileReader();
 
                 reader.onload = function (e) {
+                    let tr = document.createElement("tr");
+                    let td = document.createElement("td");
+                    tr.appendChild(td);
+
                     let img = document.createElement("img");
-                    let div = document.createElement("div");
-                    div.appendChild(img);
-                    let p = document.createElement("span");
-                    p.innerHTML = data[i];
-                    div.appendChild(p);
-                    document.getElementById("list").appendChild(div);
+                    td.appendChild(img);
                     img.src = e.target.result;
+
+                    td = document.createElement("td");
+                    tr.appendChild(td);
+                    let result = document.createElement("span");
+                    result.innerHTML = data[i];
+                    td.appendChild(result);
+
+                    td = document.createElement("td");
+                    tr.appendChild(td);
+                    let htmlSpanElement = document.createElement("span");
+                    let filenameText = document.getElementById("input-photo").files[i].name;
+                    htmlSpanElement.innerHTML = filenameText;
+                    td.appendChild(htmlSpanElement);
+                    let checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.onchange = function(e) {
+                        Remath();
+                    };
+                    checkbox.checked = true;
+                    td.appendChild(checkbox);
+
+                    td = document.createElement("td");
+                    tr.appendChild(td);
+                    let successText = document.createElement("span");
+                    let successed = filenameText.toString().includes(data[i] + '');
+                    successText.innerHTML = successed ? "Успешно" : "Неуспешно";
+                    successText.classList.add(successed ? "success" : "fail");
+                    td.appendChild(successText);
+
+                    if(successed) {
+                        successCount++;
+                        console.log(successCount, "wtf");
+                    }
+
+                    document.getElementById("list").appendChild(tr);
+
+                    Remath();
                 };
 
                 reader.readAsDataURL(input.files[i]);
             }
         }
+    }
+
+    function Remath() {
+        let names = document.querySelectorAll("input[type='checkbox']:checked");
+        let successCount = 0;
+        for(let i = 0; i < names.length; i++) {
+            console.log("data", names[i]);
+            let result = names[i].parentElement.previousSibling.children[0].innerHTML;
+            let success = names[i].previousSibling.innerHTML.includes(result + "");
+            if(success) {
+                successCount++;
+            }
+        }
+        document.getElementById("successCount").innerHTML = successCount + "";
+        document.getElementById("fullCount").innerHTML = names.length + "";
+        document.getElementById("spanPercent").innerHTML =
+            ((successCount / names.length) * 100 + "").substr(0, 7);
     }
 </script>
 </body>

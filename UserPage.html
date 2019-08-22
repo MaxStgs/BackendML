@@ -32,13 +32,25 @@
         }
     </style>
 </head>
-<body>
-<input type="button" onclick="sendRequest()" value="Send message">
-<input type="file" id="input-photo" multiple="multiple">
-<div>Результат: <span id="spanPercent"></span>% при <span id="successCount"></span>/<span id="fullCount"></span> пройденных</div>
+<label>Учитывать имена файлов<input id="includeCheckbox" type="checkbox" checked name="test"></label>
+<div id="result-block">Результат: <span id="spanPercent"></span>% при
+    <span id="successCount"></span>/<span id="fullCount"></span> пройденных
+</div>
+<br>
+<label>Выберите файлы <input type="file" id="input-photo" multiple="multiple"></label>
+<br>
+<input type="button" onclick="sendRequest()" value="Отправить файлы" style="margin-top: 20px;">
 <table id="list" border="1">
 </table>
 <script>
+    document.getElementById("includeCheckbox").onchange = function(e) {
+        document.getElementById("result-block").hidden = !document.getElementById("result-block").hidden;
+        let rows = document.getElementById("list").rows;
+        for(let i = 0; i < rows.length; i++) {
+            rows[i].children[3].hidden = !rows[i].children[3].hidden;
+        }
+    };
+
     let formData = new FormData();
 
     for(let i = 0; i < document.getElementById("input-photo").files.length; i++) {
@@ -129,7 +141,7 @@
     }
 
     function Remath() {
-        let names = document.querySelectorAll("input[type='checkbox']:checked");
+        let names = document.querySelectorAll("td > input[type='checkbox']:checked");
         let successCount = 0;
         for(let i = 0; i < names.length; i++) {
             console.log("data", names[i]);

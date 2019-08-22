@@ -31,7 +31,17 @@
             color: red;
         }
     </style>
+    <link rel="stylesheet" href="https://neurovisor.tech/cache/css/bf77d1305959b6acc57214b5d4942f20.css">
 </head>
+<header class="header header--internal">
+    <div class="wrapper wrapper--menu">
+        <div class="logo">
+            <a href="https://neurovisor.tech/" title="Neurovisor - это интеллектуальная система анализа медицинских данных с применением технологий искусственного интеллекта"><img src="https://neurovisor.tech/custom/custom01_05_2019_13_07/img/images/logo.png" alt="Neurovisor - это интеллектуальная система анализа медицинских данных с применением технологий искусственного интеллекта"></a>
+        </div>
+        <nav class="menu"><button type="button" class="menu__btn"></button><ul class="menu__list"><li class="menu__item"><a href="https://neurovisor.tech/o-sisteme/" class="menu__link">О системе</a></li><li class="menu__item"><a href="https://neurovisor.tech/napravleniya-razrabotki/" class="menu__link menu__link--active">Направления разработки</a></li><li class="menu__item"><a href="https://neurovisor.tech/demo-versiya/" class="menu__link">Демо-версия</a></li><li class="menu__item"><a href="https://neurovisor.tech/nv/razmetka_iod/via.html" class="menu__link">Разметка</a></li><li class="menu__item"><a href="https://neurovisor.tech/partnyory/" class="menu__link">Партнёры</a></li><li class="menu__item"><a href="https://neurovisor.tech/novosti/" class="menu__link">Новости</a></li><li class="menu__item"><a href="https://neurovisor.tech/feedback/" class="menu__link">Контакты</a></li></ul></nav>
+    </div>
+    <div class="header__langs"><a href="#" class="header__lang header__lang--active">ru</a> <a href="https://neurovisor.tech/en/napravleniya-razrabotki/" class="header__lang">en</a> </div>
+</header>
 <label>Учитывать имена файлов<input id="includeCheckbox" type="checkbox" checked name="test"></label>
 <div id="result-block">Результат: <span id="spanPercent"></span>% при
     <span id="successCount"></span>/<span id="fullCount"></span> пройденных
@@ -39,7 +49,7 @@
 <br>
 <label>Выберите файлы <input type="file" id="input-photo" multiple="multiple"></label>
 <br>
-<input type="button" onclick="sendRequest()" value="Отправить файлы" style="margin-top: 20px;">
+<input type="button" onclick="sendRequest()" value="Отправить файлы" style="margin-top: 20px;width: 225px;border: 1px solid grey;height: 30px">
 <table id="list" border="1">
 </table>
 <script>
